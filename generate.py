@@ -1,10 +1,13 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import argparse
 import random
 import json
 from sys import stdout
 
 
-# переводит строку, когда ее длина становится достаточно большой
+
 def line_break(s, cnt):
     cnt += 1
     if cnt > 10:
@@ -13,14 +16,13 @@ def line_break(s, cnt):
     return cnt
 
 
-# инициализируем парсер с входными параметрами
 def init_parser():
     parser = argparse.ArgumentParser(description="Texting generation")
-    parser.add_argument("--model", action='store', metavar='model.txt', 
+    parser.add_argument("--model", action='store', metavar='model.txt',
         required=True, help="Path to the model file")
-    parser.add_argument("--seed", action='store', required=False, 
+    parser.add_argument("--seed", action='store', required=False,
         metavar="You", help="First word")
-    parser.add_argument("--length", type=int, action='store', 
+    parser.add_argument("--length", type=int, action='store',
         required=True, metavar="10", help="Length of the text")
     parser.add_argument("--output", action='store',
         metavar='output.txt', required=False, help="Path to output file")
@@ -28,7 +30,7 @@ def init_parser():
     return args
 
 
-# работа с входными параметрами
+
 def get_first_word(args, Dictionary):
     if args.seed is None:
         first_word = random.choice(list(Dictionary.keys()))
@@ -37,7 +39,6 @@ def get_first_word(args, Dictionary):
     return first_word
 
 
-# загружаем словарь в формате json, на основе которого будем генерировать наш текст
 def get_dict(args):
     with open(args.model, "r") as File:
         Dictionary = json.load(File)
@@ -45,13 +46,11 @@ def get_dict(args):
         return Dictionary
 
 
-#получить длину текста
 def get_length(args):
     length_of_text = args.length
     return length_of_text
 
 
-#получить файл для записи
 def get_file_for_write(args):
     if args.output is None:
         File = stdout
@@ -59,7 +58,7 @@ def get_file_for_write(args):
         File = open(args.output, "w")
     return File
 
-# работа с первым словом(вдруг его нет в словаре, тогда сгенерируем случайное из списка ключей словаря)
+
 def first_word_write(Dictionary, File, first_word):
     File.write(first_word+" ")
     cur_word = ""
@@ -71,7 +70,7 @@ def first_word_write(Dictionary, File, first_word):
     return cur_word, start_pos
 
 
-# генерируем наш строку, на основе взятого словаря, возвращаем также последнее слово
+
 def generate(Dictionary, length_line, cur_word):
     cnt = 0
     result = ""
@@ -126,7 +125,7 @@ def decision(args):
     write_to_file(Dictionary, length_of_text, File, first_word)
 
 
-#функция main 
+#функция main
 def main():
     decision(init_parser())
 
