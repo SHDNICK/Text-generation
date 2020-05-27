@@ -1,6 +1,7 @@
-python:
-    - "3.6.7"
-install:
-    pip3 install -r requirements.txt
-script:
-    python3 train.py --model model.txt < text.txt 
+include :
+    python:
+        - "3.6.7"
+    install:
+        pip3 install -r requirements.txt
+    script:
+        python3 train.py --model model.txt < text.txt 
