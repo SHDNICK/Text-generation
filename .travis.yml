@@ -1,6 +1,6 @@
 python:
     - "3.6"
 install:
-    pip install -r requirements.txt
+    pip3 install -r requirements.txt
 script:
-    python3 generate.py --model model.txt --length 10
+    python3 train.py --model model.txt < text.txt 
